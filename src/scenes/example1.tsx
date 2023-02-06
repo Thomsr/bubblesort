@@ -1,10 +1,10 @@
-import {makeScene2D} from '@motion-canvas/2d/lib/scenes';
-import {Layout, Rect, Node, Line, Text} from '@motion-canvas/2d/lib/components/'
+import { makeScene2D } from '@motion-canvas/2d/lib/scenes';
+import { Rect, Text } from '@motion-canvas/2d/lib/components/'
 import { all, waitFor, waitUntil } from '@motion-canvas/core/lib/flow/'
 import { createRef, makeRef } from '@motion-canvas/core/lib/utils';
 import { Color, Spacing } from '@motion-canvas/core/lib/types';
 import { Colors } from '../styles'
-import { easeInCubic, easeInOutCubic, tween } from '@motion-canvas/core/lib/tweening';
+import { easeInOutCubic, tween } from '@motion-canvas/core/lib/tweening';
 
 
 export default makeScene2D(function* (view) {
@@ -32,7 +32,7 @@ export default makeScene2D(function* (view) {
                 height={128}
                 width={128}
                 lineWidth={8}
-                radius={4}
+                radius={new Spacing(4)}
                 x={-((Array1.length * (128 + 28)) / 2) + i * (128 + 28) + (128 + 28) / 2 }
             >
                 <Text text={Array1[i].toString()} {...textStyle} />
