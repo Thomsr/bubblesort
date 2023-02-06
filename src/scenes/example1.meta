@@ -16,7 +16,11 @@
     },
     {
       "name": "Swaps",
-      "targetTime": 4.351781120780377
+      "targetTime": 4.345680084348223
+    },
+    {
+      "name": "Next",
+      "targetTime": 7.1160237142892555
     }
   ]
 }

@@ -9,13 +9,11 @@ import { easeInCubic, easeInOutCubic, tween } from '@motion-canvas/core/lib/twee
 
 export default makeScene2D(function* (view) {
     const Elements: Rect[] = [];
-    const Array1 = ['1', '2', '3', '4', '5', '6', '7']
+    const Array1 = [6, 5, 3, 1, 8, 7, 2]
 
     const Array = createRef<Rect>();
     
     const boxStyle = {
-        width: 128,
-        height: 128,
         alignItems: 'center',
         justifyContent: 'center',
         paddingTop: 5,
@@ -27,49 +25,28 @@ export default makeScene2D(function* (view) {
         fill: 'rgba(255, 255, 255, 0.6)',
     };
 
-    view.add(
-    <>
-        <Rect ref={makeRef(Elements, 0)} {...boxStyle}>
-            <Text text={Array1[0]} {...textStyle}></Text>
-        </Rect>
-        <Rect ref={makeRef(Elements, 1)} {...boxStyle}>
-            <Text text={Array1[1]} {...textStyle}></Text>
-        </Rect>
-        <Rect ref={makeRef(Elements, 2)} {...boxStyle}>
-            <Text text={Array1[2]} {...textStyle}></Text>
-        </Rect>
-        <Rect ref={makeRef(Elements, 3)} {...boxStyle}>
-            <Text text={Array1[3]} {...textStyle}></Text>
-        </Rect>
-        <Rect ref={makeRef(Elements, 4)} {...boxStyle}>
-            <Text text={Array1[4]} {...textStyle}></Text>
-        </Rect>
-        <Rect ref={makeRef(Elements, 5)} {...boxStyle}>
-            <Text text={Array1[5]} {...textStyle}></Text>
-        </Rect>
-        <Rect ref={makeRef(Elements, 6)} {...boxStyle}>
-            <Text text={Array1[6]} {...textStyle}></Text>
-        </Rect>
-    </>
-    )
-
-    for(let i = 0; i < Elements.length; i++){
-        const Element = Elements[i];
-
-        Element.position.x(-(Elements.length/2 - i).toFixed(2) * (128 + 28));
-
-        Element.lineWidth(8);
-        Element.stroke('#242424');
-        Element.radius(new Spacing(4))
+    for(let i = 0; i < Array1.length; i++){
+        view.add(
+            <Rect
+                ref={makeRef(Elements, i)}
+                height={128}
+                width={128}
+                lineWidth={8}
+                radius={4}
+                x={-((Array1.length * (128 + 28)) / 2) + i * (128 + 28) + (128 + 28) / 2 }
+            >
+                <Text text={Array1[i].toString()} {...textStyle} />
+            </Rect>
+        )
     }
     
     yield* waitUntil('Steps');
     yield* Steps(Elements);
     yield* waitUntil('Compares');
-    yield* Compares(Elements[3], Elements[4]);
+    yield* Compares(Elements[2], Elements[3]);
     yield* waitUntil('Swaps');
-    yield* Swaps(Elements[3], Elements[4]);
-    yield* waitFor(10);
+    yield* Swaps(Elements[2], Elements[3]);
+    yield* waitUntil('Next');
 })
 
 function* Steps(Elements: Rect[]){
@@ -131,9 +108,8 @@ function* Compares(Element1: Rect, Element2: Rect){
 
 function* Swaps(Element1: Rect, Element2: Rect){
     const E1 = Element1.absolutePosition();
-    yield* Element1.absolutePosition(Element2.absolutePosition(), 1);
-    // yield* Element2.absolutePosition(E1);
-
-    // Element2.layout(false, 1);
-    // Element1.layout(false);
+    yield* all(
+        Element1.absolutePosition(Element2.absolutePosition(), 1),
+        Element2.absolutePosition(E1, 1),
+    )
 }
