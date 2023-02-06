@@ -1,0 +1,22 @@
+{
+  "version": 1,
+  "seed": 3911243857,
+  "timeEvents": [
+    {
+      "name": "Steps",
+      "targetTime": 0.4207561728395071
+    },
+    {
+      "name": "Compares",
+      "targetTime": 2.2245833333333325
+    },
+    {
+      "name": "next",
+      "targetTime": 3.67908950617284
+    },
+    {
+      "name": "Swaps",
+      "targetTime": 4.351781120780377
+    }
+  ]
+}
