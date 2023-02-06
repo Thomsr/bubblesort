@@ -19,8 +19,20 @@
       "targetTime": 4.345680084348223
     },
     {
+      "name": "Rotate",
+      "targetTime": 6.673978467805629
+    },
+    {
+      "name": "Bubble",
+      "targetTime": 10.215380138836927
+    },
+    {
+      "name": "Sinks",
+      "targetTime": 13.8
+    },
+    {
       "name": "Next",
-      "targetTime": 7.1160237142892555
+      "targetTime": 19.186594580756427
     }
   ]
 }
