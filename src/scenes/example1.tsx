@@ -14,7 +14,8 @@ export default makeScene2D(function* (view) {
     const Array = createRef<Rect>();
     
     const boxStyle = {
-        width: 95,
+        width: 128,
+        height: 128,
         alignItems: 'center',
         justifyContent: 'center',
         paddingTop: 5,
@@ -28,43 +29,35 @@ export default makeScene2D(function* (view) {
 
     view.add(
     <>
-     <Rect
-        ref={Array}
-        height={128}
-        direction={'row'}
-        gap={28}
-        layout
-        padding={20}
-      >
-        <Layout grow={1} gap={28}>
-            <Rect ref={makeRef(Elements, 0)} {...boxStyle}>
-                <Text text={Array1[0]} {...textStyle}></Text>
-            </Rect>
-            <Rect ref={makeRef(Elements, 1)} {...boxStyle}>
-                <Text text={Array1[1]} {...textStyle}></Text>
-            </Rect>
-            <Rect ref={makeRef(Elements, 2)} {...boxStyle}>
-                <Text text={Array1[2]} {...textStyle}></Text>
-            </Rect>
-            <Rect ref={makeRef(Elements, 3)} {...boxStyle}>
-                <Text text={Array1[3]} {...textStyle}></Text>
-            </Rect>
-            <Rect ref={makeRef(Elements, 4)} {...boxStyle}>
-                <Text text={Array1[4]} {...textStyle}></Text>
-            </Rect>
-            <Rect ref={makeRef(Elements, 5)} {...boxStyle}>
-                <Text text={Array1[5]} {...textStyle}></Text>
-            </Rect>
-            <Rect ref={makeRef(Elements, 6)} {...boxStyle}>
-                <Text text={Array1[6]} {...textStyle}></Text>
-            </Rect>
-        </Layout>
-      </Rect>
+        <Rect ref={makeRef(Elements, 0)} {...boxStyle}>
+            <Text text={Array1[0]} {...textStyle}></Text>
+        </Rect>
+        <Rect ref={makeRef(Elements, 1)} {...boxStyle}>
+            <Text text={Array1[1]} {...textStyle}></Text>
+        </Rect>
+        <Rect ref={makeRef(Elements, 2)} {...boxStyle}>
+            <Text text={Array1[2]} {...textStyle}></Text>
+        </Rect>
+        <Rect ref={makeRef(Elements, 3)} {...boxStyle}>
+            <Text text={Array1[3]} {...textStyle}></Text>
+        </Rect>
+        <Rect ref={makeRef(Elements, 4)} {...boxStyle}>
+            <Text text={Array1[4]} {...textStyle}></Text>
+        </Rect>
+        <Rect ref={makeRef(Elements, 5)} {...boxStyle}>
+            <Text text={Array1[5]} {...textStyle}></Text>
+        </Rect>
+        <Rect ref={makeRef(Elements, 6)} {...boxStyle}>
+            <Text text={Array1[6]} {...textStyle}></Text>
+        </Rect>
     </>
     )
 
     for(let i = 0; i < Elements.length; i++){
         const Element = Elements[i];
+
+        Element.position.x(-(Elements.length/2 - i).toFixed(2) * (128 + 28));
+
         Element.lineWidth(8);
         Element.stroke('#242424');
         Element.radius(new Spacing(4))
