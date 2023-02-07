@@ -8,7 +8,8 @@ import { easeInOutCubic, tween } from '@motion-canvas/core/lib/tweening';
 
 export default makeScene2D(function* (view) {
     const Elements: Rect[] = [];
-    const Array1 = [6, 5, 3, 1, 8, 7, 2]
+    const Text_: Text[] = [];
+    const Array1 = [6, 5, 3, 1, 8, 7, 2];
 
     const textStyle = {
         fontSize: 60,
@@ -29,7 +30,7 @@ export default makeScene2D(function* (view) {
                 
                 x={-((Array1.length * (128 + 28)) / 2) + i * (128 + 28) + (128 + 28) / 2 }
             >
-                <Text text={Array1[i].toString()} {...textStyle} />
+                <Text ref={makeRef(Text_, i)} text={Array1[i].toString()} {...textStyle} />
             </Rect>
         )
     }
@@ -50,111 +51,91 @@ export default makeScene2D(function* (view) {
         )
     }
     yield* waitUntil('Beginning');
-    yield* HighLight(Elements[0]);
+    yield* HighLight(Elements[0], .5);
 
-    yield* waitUntil('Compare1');
-    yield* deHighLight(Elements[0]);    
-    yield* Compares(Elements[0], Elements[1], 1);
-    yield* waitUntil('Swap1');
-    yield* Swaps(Elements[0], Elements[1]); 
+    yield* Step(0, 1, Elements, Text_, Array1, true);
+    yield* Step(1, 2, Elements, Text_, Array1, true);
+    yield* Step(2, 3, Elements, Text_, Array1, true);
+    yield* Step(3, 4, Elements, Text_, Array1, false);
+    yield* Step(4, 5, Elements, Text_, Array1, true);
+    yield* Step(5, 6 , Elements, Text_, Array1, true);
 
-    yield* waitUntil('Compare2');
-    yield* Compares(Elements[0], Elements[2], 2);
-    yield* Swaps(Elements[0], Elements[2]);
+    yield* waitUntil('Largest');
+    yield* tween(0.5, color =>{
+        Elements[6].stroke(
+            Color.lerp(
+                new Color('#242424'),
+                new Color(Colors.green), 
+                easeInOutCubic(color),
+            )
+        )
+    })
 
-    yield* waitUntil('Compare3');
-    yield* Compares(Elements[0], Elements[3], 3);
-    yield* Swaps(Elements[0], Elements[3]);
+    yield* waitUntil('Bubblesort');
+    for(let i = 0; i < Array1.length-i+2; i++){
+        for(let j = 0; j < Array1.length-i-2; j++){
+            if(Array1[j] > Array1[j+1]){
+                yield* StepBubble(j, j+1, Elements, Text_, Array1, true);
+            } else yield* StepBubble(j, j+1, Elements, Text_, Array1, false);
+        }
+        yield* tween(0.5, color =>{
+            Elements[Array1.length-i-2].stroke(
+                Color.lerp(
+                    new Color('#242424'),
+                    new Color(Colors.green), 
+                    easeInOutCubic(color),
+                )
+            )
+        })
+    }
+    yield* tween(0.5, color =>{
+        Elements[0].stroke(
+            Color.lerp(
+                new Color('#242424'),
+                new Color(Colors.green), 
+                easeInOutCubic(color),
+            )
+        )
+    })
 
-    yield* waitUntil('Compare4');
-    yield* Compares(Elements[0], Elements[4], 4);
-
-    yield* waitUntil('Compare5');
-    yield* Compares(Elements[4], Elements[5], 5);
-    yield* Swaps(Elements[4], Elements[5]);
-
-    yield* waitUntil('Compare6');
-    yield* Compares(Elements[4], Elements[6], 6);
-    yield* Swaps(Elements[4], Elements[6]);
-
-    yield* waitUntil('Largest')
-    yield* HighLight(Elements[4]);
+    yield* waitUntil('NNDSxt');
 
     yield* waitFor(10);
 })
 
-function* Compares(Element1: Rect, Element2: Rect, Index: Number){
+function* Swap(Element1: number, Element2: number, Elements: Rect[], Text: Text[], Array: number[]){
+    const E1 = Elements[Element1].absolutePosition();
+    const E2 = Elements[Element2].absolutePosition();
     yield* all(
-        tween(.5, color => {
-            Element1.stroke(
-                Color.lerp(
-                    new Color('#242424'),
-                    new Color(Colors.blue),
-                    easeInOutCubic(color),
-                )
-            );
-        }),
-        tween(.5, color => {
-            Element2.stroke(
-                Color.lerp(
-                    new Color('#242424'),
-                    new Color(Colors.blue),
-                    easeInOutCubic(color),
-                )
-            );
-        }),
+        Elements[Element1].absolutePosition(E2, 1),
+        Elements[Element2].absolutePosition(E1, 1),
     )
 
-    yield* waitUntil('next-' + Index.toString());
+    let temp = Array[Element1];
+    Array[Element1] = Array[Element2];
+    Array[Element2] = temp;
 
-    yield* all(
-        tween(.3, color => {
-            Element1.stroke(
-                Color.lerp(
-                    new Color(Colors.blue),
-                    new Color('#242424'),
-                    easeInOutCubic(color),
-                )
-            );
-        }),
-        tween(.3, color => {
-            Element2.stroke(
-                Color.lerp(
-                    new Color(Colors.blue),
-                    new Color('#242424'),
-                    easeInOutCubic(color),
-                )
-            );
-        }),
-    )
+    Elements[Element1].absolutePosition(E1);
+    Elements[Element2].absolutePosition(E2);
+
+    Text[Element1].text(Array[Element1].toString());
+    Text[Element2].text(Array[Element2].toString());
 }
 
-function* Swaps(Element1: Rect, Element2: Rect){
-    const E1 = Element1.absolutePosition();
-    const E2 = Element2.absolutePosition();
-    yield* all(
-        Element1.absolutePosition(E2, 1),
-        Element2.absolutePosition(E1, 1),
-    )
-    // Element1.absolutePosition(E1);
-    // Element2.absolutePosition(E2);
-    // Element2.moveUp(); // move them
-}
-
-function* HighLight(E: Rect){
-    yield* tween(.5, color =>{
+function* HighLight(E: Rect, Duration: number){
+    yield* tween(Duration, color =>{
         E.stroke(
             Color.lerp(
                 new Color('#242424'),
-                new Color(Colors.blue),
+                new Color(Colors.blue), 
                 easeInOutCubic(color),
             )
         )
     })
 }
 
-function* deHighLight(E: Rect){
-    yield* tween(.5, color =>{
+function* deHighLight(E: Rect, Duration: number){
+    yield* tween(Duration, color =>{
         E.stroke(
             Color.lerp(
                 new Color(Colors.blue),
@@ -163,4 +144,32 @@ function* deHighLight(E: Rect){
             )
         )
     })
+}
+
+function* Step(First: number, Second: number, Elements: Rect[], Text_: Text[], Array: number[], makeSwap: boolean){
+    yield* waitUntil('Compare[' + First.toString() + '-' + Second.toString() + ']');
+    yield* HighLight(Elements[First], 0.5);
+    yield* HighLight(Elements[Second], 0.5);
+    if(makeSwap){
+        yield* waitUntil('Swap2[' + First.toString() + '-' + Second.toString() + ']');
+        yield* Swap(First, Second, Elements, Text_, Array);
+    }
+    yield* waitFor(.5)
+    yield* all(
+        deHighLight(Elements[First], .3),
+        deHighLight(Elements[Second], .3),
+    )
+}
+
+function* StepBubble(First: number, Second: number, Elements: Rect[], Text_: Text[], Array: number[], makeSwap: boolean){
+    yield* HighLight(Elements[First], 0.5);
+    yield* HighLight(Elements[Second], 0.5);
+    if(makeSwap){
+        yield* Swap(First, Second, Elements, Text_, Array);
+    }
+    yield* waitFor(.5)
+    yield* all(
+        deHighLight(Elements[First], .3),
+        deHighLight(Elements[Second], .3),
+    )
 }

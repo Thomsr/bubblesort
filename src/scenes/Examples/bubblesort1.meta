@@ -8,63 +8,63 @@
     },
     {
       "name": "Beginning",
-      "targetTime": 9.253989008831253
+      "targetTime": 8.434744146798469
     },
     {
-      "name": "Compare1",
-      "targetTime": 10.744141570714223
+      "name": "Compare[0-1]",
+      "targetTime": 10.794916489495384
     },
     {
-      "name": "next-1",
-      "targetTime": 20.62494894954706
+      "name": "Swap2[0-1]",
+      "targetTime": 22.81743090319948
     },
     {
-      "name": "Swap1",
-      "targetTime": 22.74676732567822
+      "name": "Compare[1-2]",
+      "targetTime": 27.20471910936655
     },
     {
-      "name": "Compare2",
-      "targetTime": 27.57726616910368
+      "name": "Swap2[1-2]",
+      "targetTime": 33.18213583886336
     },
     {
-      "name": "next-2",
-      "targetTime": 32.1413361567058
+      "name": "Compare[2-3]",
+      "targetTime": 35
     },
     {
-      "name": "Compare3",
-      "targetTime": 34.03816874943315
+      "name": "Swap2[2-3]",
+      "targetTime": 36.3389978739446
     },
     {
-      "name": "next-3",
-      "targetTime": 35.79131398688055
+      "name": "Compare[3-4]",
+      "targetTime": 41.64139487459881
     },
     {
-      "name": "Compare4",
-      "targetTime": 41.50873035276996
+      "name": "Compare[4-5]",
+      "targetTime": 47.93013867360389
     },
     {
-      "name": "next-4",
-      "targetTime": 45.27441220035646
+      "name": "Swap2[4-5]",
+      "targetTime": 49.18758173879178
     },
     {
-      "name": "Compare5",
-      "targetTime": 47.3553278256399
+      "name": "Compare[5-6]",
+      "targetTime": 51
     },
     {
-      "name": "next-5",
-      "targetTime": 48.79639794444263
-    },
-    {
-      "name": "Compare6",
-      "targetTime": 51.93697098032082
-    },
-    {
-      "name": "next-6",
-      "targetTime": 52.99734717209269
+      "name": "Swap2[5-6]",
+      "targetTime": 53.3559914957784
     },
     {
       "name": "Largest",
-      "targetTime": 55.15725312414971
+      "targetTime": 55.505664540611264
+    },
+    {
+      "name": "Bubblesort",
+      "targetTime": 66.06202043752774
+    },
+    {
+      "name": "NNDSxt",
+      "targetTime": 95.16666666666667
     }
   ]
 }
