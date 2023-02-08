@@ -1,5 +1,6 @@
 import { makeScene2D } from '@motion-canvas/2d/lib/scenes';
 import { Rect, Text } from '@motion-canvas/2d/lib/components/'
+import { CodeBlock, edit, insert, lines, word }from '@motion-canvas/2d/lib/components/CodeBlock';
 import { all, waitFor, waitUntil } from '@motion-canvas/core/lib/flow/'
 import { createRef, makeRef } from '@motion-canvas/core/lib/utils';
 import { Color, Direction, Spacing, Vector2 } from '@motion-canvas/core/lib/types';
@@ -8,14 +9,14 @@ import { easeInOutCubic, tween } from '@motion-canvas/core/lib/tweening';
 import { slideTransition } from "@motion-canvas/core/lib/transitions";
 
 export default makeScene2D(function* (view) {
-
     yield* slideTransition(Direction.Right, 1);
 
-    const ExampleText = createRef<Text>();
-
+    const Array = [4, 5, 6, 1, 3, 4];
     const Elements: Rect[] = [];
     const Text_: Text[] = [];
-    const Array1 = [6, 5, 3, 1, 8, 7, 2];
+
+    const Code = createRef<CodeBlock>();
+    const ExampleText = createRef<Text>();
 
     const textStyle = {
         fontFamily: 'JetBrains Mono',
@@ -25,7 +26,7 @@ export default makeScene2D(function* (view) {
     view.add(
         <Text 
             ref={ExampleText}
-            text={'EXAMPLE 1'}
+            text={'EXAMPLE 2'}
             opacity={0}
             fontSize={100}
             lineHeight={100}
@@ -36,8 +37,27 @@ export default makeScene2D(function* (view) {
     yield ExampleText().opacity(1 , .5)
     yield* waitFor(2);
     yield* ExampleText().opacity(0, .5)
+    view.add(
+        <Rect
+            offset={-1}
+            x={-1100}
+            y={-540 + 80}
+            height={1080 - 160}
+            width={960}
+            clip
+        >
+            <CodeBlock 
+                ref={Code}
+                fontSize={24}
+                lineHeight={36}
+                fontFamily={'JetBrains Mono'}
+                opacity={0}
+                code={'BubbleSort(Array, n)\n for(i=0; i < n; i++){\n   for(j=0; j < n-i-1; j++){\n     if(Array[j] > Array[j+1]){\n       Swap(Array[j], Array[j+1])\n     }\n   }\n }'}
+            />
+        </Rect>
+    )
 
-    for(let i = 0; i < Array1.length; i++){
+    for(let i = 0; i < Array.length; i++){
         view.add(
             <Rect
                 opacity={0}
@@ -48,19 +68,20 @@ export default makeScene2D(function* (view) {
                 radius={new Spacing(4)}
                 stroke={'#242424'}
     
-                x={-((Array1.length * (128 + 28)) / 2) + i * (128 + 28) + (128 + 28) / 2 }
+                x={-((Array.length * (128 + 28)) / 2) + i * (128 + 28) + (128 + 28) / 2 + 300}
             >
                 <Text 
                     ref={makeRef(Text_, i)} 
-                    text={Array1[i].toString()} 
+                    text={Array[i].toString()} 
                     fontSize={60} 
                     {...textStyle} 
                 />
             </Rect>
         )
     }
+    
     yield* waitUntil('Begin');
-    for(let i = 0; i < Array1.length; i++){
+    for(let i = 0; i < Array.length; i++){
         Elements[i].position.y(-50);
         yield* all(
             tween(.5, y => {
@@ -75,36 +96,24 @@ export default makeScene2D(function* (view) {
             Elements[i].opacity(1, .5),
         )
     }
-    yield* waitUntil('Beginning');
-    yield* HighLight(Elements[0], .5);
-
-    yield* Step(0, 1, Elements, Text_, Array1, true);
-    yield* Step(1, 2, Elements, Text_, Array1, true);
-    yield* Step(2, 3, Elements, Text_, Array1, true);
-    yield* Step(3, 4, Elements, Text_, Array1, false);
-    yield* Step(4, 5, Elements, Text_, Array1, true);
-    yield* Step(5, 6 , Elements, Text_, Array1, true);
-
-    yield* waitUntil('Largest');
-    yield* tween(0.5, color =>{
-        Elements[6].stroke(
-            Color.lerp(
-                new Color('#242424'),
-                new Color(Colors.green), 
-                easeInOutCubic(color),
-            )
-        )
-    })
-
+                
+    yield* Code().opacity(1, 1); 
+    
     yield* waitUntil('Bubblesort');
-    for(let i = 0; i < Array1.length-i+2; i++){
-        for(let j = 0; j < Array1.length-i-2; j++){
-            if(Array1[j] > Array1[j+1]){
-                yield* StepBubble(j, j+1, Elements, Text_, Array1, true);
-            } else yield* StepBubble(j, j+1, Elements, Text_, Array1, false);
+    for(let i = 0; i < Array.length; i++){
+        yield* Code().selection([[[1, 0], [1, 100]]], .5);
+        for(let j = 0; j < Array.length-i-1; j++){
+            yield* Code().selection([[[2, 0], [2, 100]]], .5);
+            yield* Code().selection([[[3, 0], [3, 100]]], .5);
+            if(Array[j] > Array[j+1]){
+                yield* all(
+                    Code().selection([[[4, 0], [4, 100]]], .5),
+                    StepBubble(j, j+1, Elements, Text_, Array, true),
+                );
+            } else yield* StepBubble(j, j+1, Elements, Text_, Array, false);
         }
         yield* tween(0.5, color =>{
-            Elements[Array1.length-i-2].stroke(
+            Elements[Array.length-i-1].stroke(
                 Color.lerp(
                     new Color('#242424'),
                     new Color(Colors.green), 
@@ -113,15 +122,7 @@ export default makeScene2D(function* (view) {
             )
         })
     }
-    yield* tween(0.5, color =>{
-        Elements[0].stroke(
-            Color.lerp(
-                new Color('#242424'),
-                new Color(Colors.green), 
-                easeInOutCubic(color),
-            )
-        )
-    })
+    yield* Code().selection([[[0,0], [7, 100]]], .5)
 
     yield* waitUntil('Next');
 })
@@ -167,21 +168,6 @@ function* deHighLight(E: Rect, Duration: number){
             )
         )
     })
-}
-
-function* Step(First: number, Second: number, Elements: Rect[], Text_: Text[], Array: number[], makeSwap: boolean){
-    yield* waitUntil('Compare[' + First.toString() + '-' + Second.toString() + ']');
-    yield* HighLight(Elements[First], 0.5);
-    yield* HighLight(Elements[Second], 0.5);
-    if(makeSwap){
-        yield* waitUntil('Swap2[' + First.toString() + '-' + Second.toString() + ']');
-        yield* Swap(First, Second, Elements, Text_, Array);
-    }
-    yield* waitFor(.5)
-    yield* all(
-        deHighLight(Elements[First], .3),
-        deHighLight(Elements[Second], .3),
-    )
 }
 
 function* StepBubble(First: number, Second: number, Elements: Rect[], Text_: Text[], Array: number[], makeSwap: boolean){

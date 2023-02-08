@@ -4,7 +4,7 @@
   "timeEvents": [
     {
       "name": "Begin",
-      "targetTime": 2.574074074074072
+      "targetTime": 3.5
     },
     {
       "name": "Beginning",
@@ -36,35 +36,35 @@
     },
     {
       "name": "Compare[3-4]",
-      "targetTime": 41.64139487459881
+      "targetTime": 42.02290412319786
     },
     {
       "name": "Compare[4-5]",
-      "targetTime": 47.93013867360389
+      "targetTime": 48.096805340270556
     },
     {
       "name": "Swap2[4-5]",
-      "targetTime": 49.18758173879178
+      "targetTime": 49.35424840545845
     },
     {
       "name": "Compare[5-6]",
-      "targetTime": 51
+      "targetTime": 51.166666666666664
     },
     {
       "name": "Swap2[5-6]",
-      "targetTime": 53.3559914957784
+      "targetTime": 53.52265816244506
     },
     {
       "name": "Largest",
-      "targetTime": 55.505664540611264
+      "targetTime": 55.672331207277935
     },
     {
       "name": "Bubblesort",
-      "targetTime": 66.06202043752774
+      "targetTime": 66.2286871041944
     },
     {
-      "name": "NNDSxt",
-      "targetTime": 95.16666666666667
+      "name": "Next",
+      "targetTime": 104.011957848715
     }
   ]
 }

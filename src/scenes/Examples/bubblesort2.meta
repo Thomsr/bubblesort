@@ -1,0 +1,14 @@
+{
+  "version": 1,
+  "seed": 1500895074,
+  "timeEvents": [
+    {
+      "name": "Begin",
+      "targetTime": 3.533333333333333
+    },
+    {
+      "name": "Bubblesort",
+      "targetTime": 7.566666666666667
+    }
+  ]
+}
