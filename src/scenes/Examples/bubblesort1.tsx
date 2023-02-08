@@ -18,6 +18,7 @@ export default makeScene2D(function* (view) {
     const Array1 = [6, 5, 3, 1, 8, 7, 2];
 
     const textStyle = {
+        paddingTop: 10,
         fontFamily: 'JetBrains Mono',
         fill: 'rgba(255, 255, 255, 0.6)',
     };

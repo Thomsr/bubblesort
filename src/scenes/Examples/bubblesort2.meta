@@ -9,6 +9,10 @@
     {
       "name": "Bubblesort",
       "targetTime": 7.566666666666667
+    },
+    {
+      "name": "Next",
+      "targetTime": 65.13736736402183
     }
   ]
 }
